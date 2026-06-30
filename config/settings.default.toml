@@ -1,0 +1,13 @@
+# nyx Browser - default settings (portable)
+# Runtime settings are written to data/settings.json; this file documents the
+# defaults the browser falls back to.
+
+homepage = "https://github.com"
+search_engine = "https://www.google.com/search?q="
+restore_session = true
+theme = "dark"
+
+[privacy]
+do_not_track = true
+block_third_party_cookies = true
+trim_referrer = true

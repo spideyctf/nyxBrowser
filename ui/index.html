@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>nyx</title>
+  <link rel="stylesheet" href="nyx://ui/css/theme.css" />
+</head>
+<body>
+  <div id="app">
+    <header id="topbar">
+      <div id="tabstrip"></div>
+      <button id="btn-newtab" class="icon-btn" title="New tab">+</button>
+      <div id="toolbar">
+        <button id="btn-sidebar" class="icon-btn" title="Toggle sidebar">&#9776;</button>
+        <button id="btn-back" class="icon-btn" title="Back">&#8592;</button>
+        <button id="btn-forward" class="icon-btn" title="Forward">&#8594;</button>
+        <button id="btn-reload" class="icon-btn" title="Reload">&#10227;</button>
+        <div id="omnibox-wrap">
+          <span id="lock">&#128274;</span>
+          <input id="omnibox" type="text" spellcheck="false"
+                 placeholder="Search or enter address" />
+        </div>
+        <button id="btn-bookmark" class="icon-btn" title="Bookmark">&#9734;</button>
+      </div>
+    </header>
+
+    <div id="body">
+      <nav id="sidebar">
+        <button class="side-btn" data-panel="bookmarks" title="Bookmarks">&#9733;</button>
+        <button class="side-btn" data-panel="history" title="History">&#8635;</button>
+        <button class="side-btn" data-panel="downloads" title="Downloads">&#8595;</button>
+        <div class="side-spacer"></div>
+        <button class="side-btn" data-panel="settings" title="Settings">&#9881;</button>
+      </nav>
+
+      <main id="content">
+        <div id="content-slot"></div>
+        <section id="panel" class="hidden">
+          <header id="panel-head">
+            <h2 id="panel-title"></h2>
+            <div id="panel-actions"></div>
+            <button id="panel-close" class="icon-btn" title="Close">&#10005;</button>
+          </header>
+          <div id="panel-body"></div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script src="nyx://ui/js/bridge.js"></script>
+  <script src="nyx://ui/js/app.js"></script>
+</body>
+</html>
