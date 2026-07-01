@@ -10,6 +10,7 @@
 #include "paths.h"
 #include "storage.h"
 #include "tab_manager.h"
+#include "intel/intel_service.h"
 
 namespace nyx {
 
@@ -126,6 +127,7 @@ void NyxClient::OnAddressChange(CefRefPtr<CefBrowser> browser,
                                 const CefString& url) {
   if (role_ == kContent && tab_manager_ && frame && frame->IsMain()) {
     tab_manager_->OnAddressChange(browser, url.ToString());
+    nyx::intel::IntelService::Get().ScanNavigation(url.ToString());
   }
 }
 
@@ -157,6 +159,12 @@ void NyxClient::OnDownloadUpdated(
       {"complete", download_item->IsComplete()},
       {"canceled", download_item->IsCanceled()}};
   tab_manager_->OnDownloadUpdated(item);
+  
+  if (download_item->IsComplete()) {
+    nyx::intel::IntelService::Get().ScanDownload(
+        download_item->GetFullPath().ToString(),
+        download_item->GetURL().ToString());
+  }
 }
 
 // ---------------- CefRequestHandler ----------------

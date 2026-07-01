@@ -110,8 +110,13 @@ html, body {
 #panel {
   position: absolute; inset: 0; background: var(--bg);
   display: flex; flex-direction: column;
+  opacity: 1; transform: translateY(0);
+  transition: opacity .18s ease, transform .18s ease;
 }
-#panel.hidden { display: none; }
+#panel.hidden {
+  opacity: 0; transform: translateY(10px);
+  pointer-events: none; visibility: hidden;
+}
 #panel-head {
   display: flex; align-items: center; gap: 12px;
   padding: 14px 18px; border-bottom: 1px solid var(--border);
@@ -160,3 +165,46 @@ html, body {
   border-radius: 50%; background: #fff; transition: left .12s ease; }
 .switch.on > i { left: 20px; }
 .empty { color: var(--text-dim); text-align: center; padding: 48px 16px; }
+
+/* ---------- smooth transitions ---------- */
+.tab { transition: background .16s ease, color .16s ease, transform .16s ease; }
+.tab:hover { transform: translateY(-1px); }
+.icon-btn, .side-btn, .tab-close {
+  transition: background .15s ease, color .15s ease, transform .12s ease;
+}
+.icon-btn:active { transform: scale(0.92); }
+.side-btn:active { transform: scale(0.92); }
+#omnibox-wrap { transition: border-color .15s ease, background .15s ease, box-shadow .15s ease; }
+#omnibox-wrap:focus-within { box-shadow: 0 0 0 3px var(--accent-soft); }
+.list-row { transition: background .12s ease; animation: fadeIn .2s ease both; }
+.switch { transition: background .16s ease, border-color .16s ease; }
+.switch > i { transition: left .16s cubic-bezier(.4,0,.2,1); }
+.btn { transition: border-color .15s ease, color .15s ease, background .15s ease, transform .12s ease; }
+.btn:active { transform: scale(0.97); }
+#sidebar { transition: width .14s ease; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- intelligence dashboard ---------- */
+.dash-h {
+  padding: 16px 18px 6px; font-size: 11px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: .09em; color: var(--text-dim);
+  display: flex; align-items: center; gap: 8px;
+}
+.dash-meta { padding: 0 18px 8px; color: var(--text-dim); font-size: 12px; }
+.verdict {
+  padding: 3px 10px; border-radius: 20px; font-size: 11px;
+  text-transform: capitalize; font-weight: 600; flex: 0 0 auto;
+}
+.verdict.clean { background: #12331f; color: #46d788; }
+.verdict.suspicious { background: #35300f; color: #e6bd3b; }
+.verdict.malicious { background: #35141d; color: #ff5c6c; }
+.verdict.unknown { background: var(--bg-elev-2); color: var(--text-dim); }
+.ioc-chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 4px 18px 12px; }
+.ioc-chip {
+  font-size: 11px; padding: 3px 9px; border-radius: 6px;
+  background: var(--bg-elev); border: 1px solid var(--border); color: var(--text-dim);
+}

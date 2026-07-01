@@ -4,8 +4,11 @@
 #include "include/views/cef_fill_layout.h"
 #include "include/wrapper/cef_helpers.h"
 
+#include "intel/feed_service.h"
+#include "intel/intel_service.h"
 #include "message_bridge.h"
 #include "nyx_client.h"
+#include "storage.h"
 
 namespace nyx {
 
@@ -32,6 +35,20 @@ void NyxWindow::OnWindowCreated(CefRefPtr<CefWindow> window) {
   tabs_.Init(window_, [this](const std::string& e, const nlohmann::json& p) {
     EmitToUi(e, p);
   });
+
+  // Wire the intelligence + feed services to push results into the UI, then
+  // start the daily cybersecurity feed refresh. IOC extraction and feeds work
+  // without any API key; VirusTotal verdicts require one (see Settings).
+  auto emit = [this](const std::string& e, const nlohmann::json& p) {
+    EmitToUi(e, p);
+  };
+  nlohmann::json settings_json = Storage::Get().Settings();
+  intel::IntelService::Get().SetEmitter(emit);
+  intel::IntelService::Get().Configure(
+      settings_json.value("virusTotalApiKey", std::string()),
+      settings_json.value("intelEnabled", false));
+  intel::FeedService::Get().SetEmitter(emit);
+  intel::FeedService::Get().Start();
 
   window_->CenterWindow(CefSize(1280, 820));
   window_->Show();

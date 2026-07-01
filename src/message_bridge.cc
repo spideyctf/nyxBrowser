@@ -4,6 +4,7 @@
 
 #include "nlohmann/json.hpp"
 
+#include "intel/feed_service.h"
 #include "nyx_client.h"
 #include "storage.h"
 #include "tab_manager.h"
@@ -125,6 +126,17 @@ bool MessageBridge::OnQuery(CefRefPtr<CefBrowser> browser,
 
   // ---------------- downloads ----------------
   if (action == "downloads.list") { ok({{"downloads", store.Downloads()}}); return true; }
+
+  // ---------------- intelligence feeds ----------------
+  if (action == "feeds.get") {
+    ok(intel::FeedService::Get().Cached());
+    return true;
+  }
+  if (action == "feeds.refresh") {
+    intel::FeedService::Get().Refresh();
+    ok(intel::FeedService::Get().Cached());  // fresh data arrives via feeds.updated
+    return true;
+  }
 
   // ---------------- settings ----------------
   if (action == "settings.get") { ok({{"settings", store.Settings()}}); return true; }

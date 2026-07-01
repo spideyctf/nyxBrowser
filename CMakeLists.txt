@@ -63,6 +63,18 @@ set(NYX_SRCS
   src/paths.cc
   src/paths.h
   src/resource.h
+  src/intel/ioc_extractor.cc
+  src/intel/ioc_extractor.h
+  src/intel/sha256.cc
+  src/intel/sha256.h
+  src/intel/base64url.cc
+  src/intel/base64url.h
+  src/intel/virustotal.cc
+  src/intel/virustotal.h
+  src/intel/intel_service.cc
+  src/intel/intel_service.h
+  src/intel/feed_service.cc
+  src/intel/feed_service.h
   src/win/nyx.rc
 )
 

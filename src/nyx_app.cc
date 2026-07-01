@@ -17,6 +17,14 @@ void NyxApp::OnRegisterCustomSchemes(
 void NyxApp::OnBeforeCommandLineProcessing(
     const CefString& process_type,
     CefRefPtr<CefCommandLine> command_line) {
+  // Present a clean, current Chrome User-Agent for every process so sites such
+  // as Google don't reject nyx as an "unsupported browser". Keep the Chrome
+  // major version aligned with the CEF/Chromium build (124).
+  command_line->AppendSwitchWithValue(
+      "user-agent",
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+      "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36");
+
   // Privacy / footprint defaults applied to the engine.
   if (process_type.empty()) {
     command_line->AppendSwitch("disable-breakpad");
